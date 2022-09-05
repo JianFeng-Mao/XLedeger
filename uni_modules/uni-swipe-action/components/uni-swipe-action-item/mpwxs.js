@@ -1,30 +1,64 @@
-let mpMixins = {}
-// #ifdef APP-VUE|| MP-WEIXIN || H5
-import {
-	isPC
-} from "./isPC"
-mpMixins = {
+import { isPC } from "./isPC"
+export default {
 	data() {
 		return {
-			is_show: 'none'
+			position: [],
+			button: {},
+			btn: "[]"
 		}
 	},
+	// computed: {
+	// 	pos() {
+	// 		return JSON.stringify(this.position)
+	// 	},
+	// 	btn() {
+	// 		return JSON.stringify(this.button)
+	// 	}
+	// },
 	watch: {
+		button: {
+			handler(newVal) {
+				this.btn = JSON.stringify(newVal)
+			},
+			deep: true
+		},
 		show(newVal) {
-			this.is_show = this.show
+			if (this.autoClose) return
+			if (!this.button) {
+				this.init()
+				return
+			}
+			this.button.show = newVal
+		},
+		leftOptions() {
+			this.init()
+		},
+		rightOptions() {
+			this.init()
 		}
 	},
 	created() {
-		this.swipeaction = this.getSwipeAction()
 		if (this.swipeaction.children !== undefined) {
 			this.swipeaction.children.push(this)
 		}
 	},
 	mounted() {
-		this.is_show = this.show
+		this.init()
+	},
+	beforeDestroy() {
+		this.swipeaction.children.forEach((item, index) => {
+			if (item === this) {
+				this.swipeaction.children.splice(index, 1)
+			}
+		})
 	},
 	methods: {
-		// wxs 中调用
+		init() {
+			clearTimeout(this.swipetimer)
+			this.swipetimer = setTimeout(() => {
+				this.getButtonSize()
+			}, 50)
+		},
 		closeSwipe(e) {
 			if (!this.autoClose) return
 			this.swipeaction.closeOther(this)
@@ -32,14 +66,16 @@ mpMixins = {
 
 		change(e) {
 			this.$emit('change', e.open)
-			if (this.is_show !== e.open) {
-				this.is_show = e.open
+			let show = this.button.show
+			if (show !== e.open) {
+				this.button.show = e.open
 			}
+
 		},
 
 		appTouchStart(e) {
 			// #ifdef H5
-			if (isPC()) return
+			if(isPC()) return
 			// #endif
 			const {
 				clientX
@@ -49,7 +85,7 @@ mpMixins = {
 		},
 		appTouchEnd(e, index, item, position) {
 			// #ifdef H5
-			if (isPC()) return
+			if(isPC()) return
 			// #endif
 			const {
 				clientX
@@ -67,16 +103,31 @@ mpMixins = {
 		},
 		onClickForPC(index, item, position) {
 			// #ifdef H5
-			if (!isPC()) return
+			if(!isPC()) return
+			// #endif
 			this.$emit('click', {
 				content: item,
 				index,
 				position
 			})
-			// #endif
+		},
+		getButtonSize() {
+			const views = uni.createSelectorQuery().in(this)
+			views
+				.selectAll('.uni-swipe_button-group')
+				.boundingClientRect(data => {
+					let show = 'none'
+					if (this.autoClose) {
+						show = 'none'
+					} else {
+						show = this.show
+					}
+					this.button = {
+						data,
+						show
+					}
+				})
+				.exec()
 		}
 	}
 }
-
-// #endif
-export default mpMixins

@@ -15,14 +15,12 @@
 	/**
 	 * Group 分组
 	 * @description 表单字段分组
-	 * @tutorial https://ext.dcloud.net.cn/plugin?id=3281
+	 * @tutorial https://ext.dcloud.net.cn/plugin?id=21002
 	 * @property {String} title 主标题
 	 * @property {Number} top 分组间隔
-	 * @property {Number} mode 模式
 	 */
 	export default {
 		name: 'uniGroup',
-		emits:['click'],
 		props: {
 			title: {
 				type: String,
@@ -96,9 +94,9 @@
 		align-items: center;
 		padding-left: 15px;
 		height: 40px;
-		background-color: #eee;
+		background-color: $uni-bg-color-grey;
 		font-weight: normal;
-		color: #666;
+		color: $uni-text-color;
 	}
 
 	.uni-group__content {
@@ -112,8 +110,8 @@
 	}
 
 	.uni-group__title-text {
-		font-size: 14px;
-		color: #666;
+		font-size: $uni-font-size-base;
+		color: $uni-text-color;
 	}
 
 	.distraction {

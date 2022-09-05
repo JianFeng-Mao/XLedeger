@@ -1,18 +1,12 @@
-let otherMixins = {}
-
-// #ifndef APP-PLUS|| MP-WEIXIN  ||  H5
 const MIN_DISTANCE = 10;
-otherMixins =  {
+export default {
 	data() {
-		// TODO 随机生生元素ID，解决百度小程序获取同一个元素位置信息的bug
-		const elClass = `Uni_${Math.ceil(Math.random() * 10e5).toString(36)}`
 		return {
 			uniShow: false,
 			left: 0,
 			buttonShow: 'none',
 			ani: false,
-			moveLeft:'',
-			elClass
+			moveLeft:''
 		}
 	},
 	watch: {
@@ -35,11 +29,18 @@ otherMixins =  {
 		}
 	},
 	mounted() {
-		this.swipeaction = this.getSwipeAction()
+		// this.position = {}
 		if (this.swipeaction.children !== undefined) {
 			this.swipeaction.children.push(this)
 		}
 		this.init()
+	},
+	beforeDestoy() {
+		this.swipeaction.children.forEach((item, index) => {
+			if (item === this) {
+				this.swipeaction.children.splice(index, 1)
+			}
+		})
 	},
 	methods: {
 		init(){
@@ -51,7 +52,6 @@ otherMixins =  {
 			this.left = 0
 			this.x = 0
 		},
-
 		closeSwipe(e) {
 			if (!this.autoClose) return
 			this.swipeaction.closeOther(this)
@@ -92,8 +92,8 @@ otherMixins =  {
 			if (this.direction !== 'horizontal') {
 				return;
 			}
+
 			this.move(this.x + this.deltaX)
-			return false
 		},
 		touchend() {
 			if (this.disabled) return
@@ -234,9 +234,8 @@ otherMixins =  {
 		getSelectorQuery() {
 			const views = uni.createSelectorQuery().in(this)
 			views
-				.selectAll('.'+this.elClass)
+				.selectAll('.uni-swipe_button-group')
 				.boundingClientRect(data => {
-					if(data.length === 0) return
 					let show = 'none'
 					if (this.autoClose) {
 						show = 'none'
@@ -251,7 +250,3 @@ otherMixins =  {
 		}
 	}
 }
-
-// #endif
-
-export default otherMixins

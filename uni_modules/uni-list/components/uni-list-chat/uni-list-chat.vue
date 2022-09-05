@@ -70,7 +70,6 @@
 	 */
 	export default {
 		name: 'UniListChat',
-		emits:['click'],
 		props: {
 			title: {
 				type: String,
@@ -218,10 +217,6 @@
 </script>
 
 <style lang="scss" scoped>
-	$uni-font-size-lg:16px;
-	$uni-spacing-row-sm: 5px;
-	$uni-spacing-row-base: 10px;
-	$uni-spacing-row-lg: 15px;
 	$background-color: #fff;
 	$divide-line-color: #e5e5e5;
 	$avatar-width: 45px;

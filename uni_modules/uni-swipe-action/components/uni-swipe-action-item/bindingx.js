@@ -1,11 +1,8 @@
-let bindIngXMixins = {}
-
-// #ifdef APP-NVUE
 const BindingX = uni.requireNativePlugin('bindingx');
 const dom = uni.requireNativePlugin('dom');
 const animation = uni.requireNativePlugin('animation');
 
-bindIngXMixins = {
+export default {
 	data() {
 		return {}
 	},
@@ -30,7 +27,6 @@ bindIngXMixins = {
 		}
 	},
 	created() {
-		this.swipeaction = this.getSwipeAction()
 		if (this.swipeaction.children !== undefined) {
 			this.swipeaction.children.push(this)
 		}
@@ -42,13 +38,13 @@ bindIngXMixins = {
 		this.rightButton = this.getEl(this.$refs['selector-right-button--hock']);
 		this.init()
 	},
-	// beforeDestroy() {
-	// 	this.swipeaction.children.forEach((item, index) => {
-	// 		if (item === this) {
-	// 			this.swipeaction.children.splice(index, 1)
-	// 		}
-	// 	})
-	// },
+	beforeDestroy() {
+		this.swipeaction.children.forEach((item, index) => {
+			if (item === this) {
+				this.swipeaction.children.splice(index, 1)
+			}
+		})
+	},
 	methods: {
 		init() {
 			this.$nextTick(() => {
@@ -75,7 +71,7 @@ bindIngXMixins = {
 			if (this.autoClose) {
 				this.swipeaction.closeOther(this)
 			}
-
+				
 			const leftWidth = this.button.left.width
 			const rightWidth = this.button.right.width
 			let expression = this.range(this.x, -rightWidth, leftWidth)
@@ -294,7 +290,3 @@ bindIngXMixins = {
 		}
 	}
 }
-
-// #endif
-
-export default bindIngXMixins

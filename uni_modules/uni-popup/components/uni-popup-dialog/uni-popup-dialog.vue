@@ -1,7 +1,7 @@
 <template>
 	<view class="uni-popup-dialog">
 		<view class="uni-dialog-title">
-			<text class="uni-dialog-title-text" :class="['uni-popup__'+dialogType]">{{titleText}}</text>
+			<text class="uni-dialog-title-text" :class="['uni-popup__'+dialogType]">{{title}}</text>
 		</view>
 		<view v-if="mode === 'base'" class="uni-dialog-content">
 			<slot>
@@ -10,15 +10,15 @@
 		</view>
 		<view v-else class="uni-dialog-content">
 			<slot>
-				<input class="uni-dialog-input" v-model="val" type="text" :placeholder="placeholderText" :focus="focus" >
+				<input class="uni-dialog-input" v-model="val" type="text" :placeholder="placeholder" :focus="focus" >
 			</slot>
 		</view>
 		<view class="uni-dialog-button-group">
 			<view class="uni-dialog-button" @click="closeDialog">
-				<text class="uni-dialog-button-text">{{closeText}}</text>
+				<text class="uni-dialog-button-text">取消</text>
 			</view>
 			<view class="uni-dialog-button uni-border-left" @click="onOk">
-				<text class="uni-dialog-button-text uni-button-color">{{okText}}</text>
+				<text class="uni-dialog-button-text uni-button-color">确定</text>
 			</view>
 		</view>
 
@@ -27,11 +27,6 @@
 
 <script>
 	import popup from '../uni-popup/popup.js'
-	import {
-	initVueI18n
-	} from '@dcloudio/uni-i18n'
-	import messages from '../uni-popup/i18n/index.js'
-	const {	t } = initVueI18n(messages)
 	/**
 	 * PopUp 弹出层-对话框样式
 	 * @description 弹出层-对话框样式
@@ -55,7 +50,6 @@
 	export default {
 		name: "uniPopupDialog",
 		mixins: [popup],
-		emits:['confirm','close'],
 		props: {
 			value: {
 				type: [String, Number],
@@ -63,7 +57,7 @@
 			},
 			placeholder: {
 				type: [String, Number],
-				default: ''
+				default: '请输入内容'
 			},
 			type: {
 				type: String,
@@ -75,7 +69,7 @@
 			},
 			title: {
 				type: String,
-				default: ''
+				default: '提示'
 			},
 			content: {
 				type: String,
@@ -84,14 +78,6 @@
 			beforeClose: {
 				type: Boolean,
 				default: false
-			},
-			cancelText:{
-				type: String,
-				default: ''
-			},
-			confirmText:{
-				type: String,
-				default: ''
 			}
 		},
 		data() {
@@ -99,20 +85,6 @@
 				dialogType: 'error',
 				focus: false,
 				val: ""
-			}
-		},
-		computed: {
-			okText() {
-				return this.confirmText || t("uni-popup.ok")
-			},
-			closeText() {
-				return this.cancelText || t("uni-popup.cancel")
-			},
-			placeholderText() {
-				return this.placeholder || t("uni-popup.placeholder")
-			},
-			titleText() {
-				return this.title || t("uni-popup.title")
 			}
 		},
 		watch: {
@@ -170,10 +142,10 @@
 	}
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
 	.uni-popup-dialog {
 		width: 300px;
-		border-radius: 11px;
+		border-radius: 15px;
 		background-color: #fff;
 	}
 
@@ -183,7 +155,8 @@
 		/* #endif */
 		flex-direction: row;
 		justify-content: center;
-		padding-top: 25px;
+		padding-top: 15px;
+		padding-bottom: 5px;
 	}
 
 	.uni-dialog-title-text {
@@ -198,12 +171,12 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		padding: 20px;
+		padding: 5px 15px 15px 15px;
 	}
 
 	.uni-dialog-content-text {
 		font-size: 14px;
-		color: #6C6C6C;
+		color: #6e6e6e;
 	}
 
 	.uni-dialog-button-group {
@@ -235,8 +208,7 @@
 	}
 
 	.uni-dialog-button-text {
-		font-size: 16px;
-		color: #333;
+		font-size: 14px;
 	}
 
 	.uni-button-color {

@@ -1,24 +1,3 @@
-## 1.7.6（2022-02-14）
-- 修复 safeArea 属性不能设置为false的bug
-## 1.7.5（2022-01-19）
-- 修复 isMaskClick 失效的bug
-## 1.7.4（2022-01-19）
-- 新增 cancelText \ confirmText 属性 ，可自定义文本
-- 新增 maskBackgroundColor 属性 ，可以修改蒙版颜色
-- 优化 maskClick属性 更新为 isMaskClick ，解决微信小程序警告的问题
-## 1.7.3（2022-01-13）
-- 修复 设置 safeArea 属性不生效的bug
-## 1.7.2（2021-11-26）
-- 优化 组件示例
-## 1.7.1（2021-11-26）
-- 修复 vuedoc 文字错误
-## 1.7.0（2021-11-19）
-- 优化 组件UI，并提供设计资源，详见:[https://uniapp.dcloud.io/component/uniui/resource](https://uniapp.dcloud.io/component/uniui/resource)
-- 文档迁移，详见:[https://uniapp.dcloud.io/component/uniui/uni-popup](https://uniapp.dcloud.io/component/uniui/uni-popup)
-## 1.6.2（2021-08-24）
-- 新增 支持国际化
-## 1.6.1（2021-07-30）
-- 优化 vue3下事件警告的问题
 ## 1.6.0（2021-07-13）
 - 组件兼容 vue3，如何创建vue3项目，详见 [uni-app 项目支持 vue3 介绍](https://ask.dcloud.net.cn/article/37834)
 ## 1.5.0（2021-06-23）
